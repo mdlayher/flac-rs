@@ -24,13 +24,13 @@ pub enum Block {
 
 /// Contains a FLAC file stream which can be parsed.
 #[derive(Debug)]
-pub struct Stream<'a, T: 'a + Read + Seek> {
-    stream: &'a mut T,
+pub struct Stream<T: Read + Seek> {
+    stream: T,
 }
 
-impl<'a, T: Read + Seek> Stream<'a, T> {
+impl<T: Read + Seek> Stream<T> {
     /// Creates a new Stream by accepting an input with traits Read and Seek.
-    pub fn new(stream: &'a mut T) -> io::Result<Self> {
+    pub fn new(mut stream: T) -> io::Result<Self> {
         let mut magic_buf = [0; 4];
         stream.read_exact(&mut magic_buf)?;
 
